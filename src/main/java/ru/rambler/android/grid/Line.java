@@ -7,31 +7,31 @@ public class Line {
     private final int width;
     private final int gravity;
     private final int margin;
-    private final int marginType;
+    private final int marginUnit;
     private final int color;
 
-    private Line(int width, int gravity, int margin, int marginType, int color) {
+    private Line(int width, int gravity, int margin, int marginUnit, int color) {
         this.width = width;
         this.gravity = gravity;
         this.margin = margin;
-        this.marginType = marginType;
+        this.marginUnit = marginUnit;
         this.color = color;
     }
 
-    public static Line fromLeft(int margin, int marginType) {
-        return new Line(1, Gravity.LEFT, margin, marginType, DebugColors.next());
+    public static Line fromLeft(int margin, int marginUnit) {
+        return new Line(1, Gravity.LEFT, margin, marginUnit, DebugColors.next());
     }
 
-    public static Line fromRight(int margin, int marginType) {
-        return new Line(1, Gravity.RIGHT, margin, marginType, DebugColors.next());
+    public static Line fromRight(int margin, int marginUnit) {
+        return new Line(1, Gravity.RIGHT, margin, marginUnit, DebugColors.next());
     }
 
-    public static Line fromTop(int margin, int marginType) {
-        return new Line(1, Gravity.TOP, margin, marginType, DebugColors.next());
+    public static Line fromTop(int margin, int marginUnit) {
+        return new Line(1, Gravity.TOP, margin, marginUnit, DebugColors.next());
     }
 
-    public static Line fromBottom(int margin, int marginType) {
-        return new Line(1, Gravity.BOTTOM, margin, marginType, DebugColors.next());
+    public static Line fromBottom(int margin, int marginUnit) {
+        return new Line(1, Gravity.BOTTOM, margin, marginUnit, DebugColors.next());
     }
 
     public int getWidth() {
@@ -46,8 +46,8 @@ public class Line {
         return margin;
     }
 
-    public int getMarginType() {
-        return marginType;
+    public int getMarginUnit() {
+        return marginUnit;
     }
 
     public int getColor() {
