@@ -13,7 +13,9 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Debug grid drawing above android activities
@@ -21,14 +23,15 @@ import java.util.List;
 public class DebugGrid {
     private final List<Line> lines;
     private final Application application;
-    private final View gridView;
-    private final Application.ActivityLifecycleCallbacks lifecycleCallbacks;
+    private final Map<Activity, View> gridViews = new IdentityHashMap<>();
+    private final LifecycleCallbacks lifecycleCallbacks;
+    private boolean visible = true;
 
 
     private DebugGrid(Application application, List<Line> lines) {
         this.application = application;
         this.lines = new ArrayList<>(lines);
-        this.gridView = inflateView(application);
+        inflateView(application);
         lifecycleCallbacks = new LifecycleCallbacks();
         application.registerActivityLifecycleCallbacks(lifecycleCallbacks);
     }
@@ -37,31 +40,44 @@ public class DebugGrid {
      * Hide debug grid
      */
     public void hide() {
-        gridView.setVisibility(View.GONE);
+        visible = false;
+        if (lifecycleCallbacks.lastForegroundActivity != null) {
+            removeGridView(lifecycleCallbacks.lastForegroundActivity);
+        }
     }
 
     /**
      * Show debug grid
      */
     public void show() {
-        gridView.setVisibility(View.VISIBLE);
+        visible = true;
+        if (lifecycleCallbacks.lastForegroundActivity != null) {
+            addGridView(lifecycleCallbacks.lastForegroundActivity);
+        }
     }
 
     private void addGridView(Activity foregroundActivity) {
-        WindowManager windowManager = (WindowManager) foregroundActivity.getSystemService(Context.WINDOW_SERVICE);
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT);
-        windowManager.addView(gridView, params);
+        if (visible) {
+            WindowManager windowManager = (WindowManager) foregroundActivity.getSystemService(Context.WINDOW_SERVICE);
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.TYPE_APPLICATION,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                            | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                            | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                    PixelFormat.TRANSLUCENT);
+            View gridView = inflateView(foregroundActivity);
+            gridViews.put(foregroundActivity, gridView);
+            windowManager.addView(gridView, params);
+        }
     }
 
     private void removeGridView(Activity foregroundActivity) {
         WindowManager windowManager = (WindowManager) foregroundActivity.getSystemService(Context.WINDOW_SERVICE);
-        windowManager.removeView(gridView);
+        if (gridViews.containsKey(foregroundActivity)) {
+            windowManager.removeView(gridViews.get(foregroundActivity));
+            gridViews.remove(foregroundActivity);
+        }
     }
 
     private View inflateView(Context context) {
@@ -125,6 +141,8 @@ public class DebugGrid {
     }
 
     private class LifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+        private Activity lastForegroundActivity;
+
 
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -133,6 +151,7 @@ public class DebugGrid {
         @Override
         public void onActivityStarted(Activity activity) {
             addGridView(activity);
+            lastForegroundActivity = activity;
         }
 
         @Override
@@ -146,6 +165,9 @@ public class DebugGrid {
         @Override
         public void onActivityStopped(Activity activity) {
             removeGridView(activity);
+            if (lastForegroundActivity == activity) {
+                lastForegroundActivity = null;
+            }
         }
 
         @Override
