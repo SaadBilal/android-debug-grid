@@ -15,7 +15,9 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Debug grid drawing above android activities
+ */
 public class DebugGrid {
     private final List<Line> lines;
     private final Application application;
@@ -31,10 +33,16 @@ public class DebugGrid {
         application.registerActivityLifecycleCallbacks(lifecycleCallbacks);
     }
 
+    /**
+     * Hide debug grid
+     */
     public void hide() {
         gridView.setVisibility(View.GONE);
     }
 
+    /**
+     * Show debug grid
+     */
     public void show() {
         gridView.setVisibility(View.VISIBLE);
     }
@@ -88,14 +96,29 @@ public class DebugGrid {
         return parent;
     }
 
+    /**
+     * Builder class for creating debug grid
+     */
     public static class Builder {
         private final List<Line> lines = new ArrayList<>();
 
+        /**
+         * Add new line to creating grid
+         *
+         * @param line new line
+         * @return this instance for fluent interface
+         */
         public Builder with(Line line) {
             lines.add(line);
             return this;
         }
 
+        /**
+         * Builds and show grid over activities of specified application
+         *
+         * @param application application instance
+         * @return Builded debug grid
+         */
         public DebugGrid build(Application application) {
             return new DebugGrid(application, lines);
         }

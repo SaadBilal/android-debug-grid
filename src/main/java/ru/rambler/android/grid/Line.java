@@ -1,8 +1,10 @@
 package ru.rambler.android.grid;
 
-
 import android.view.Gravity;
 
+/**
+ * Single line for debug grid
+ */
 public class Line {
     private final int width;
     private final int gravity;
@@ -18,38 +20,85 @@ public class Line {
         this.color = color;
     }
 
+    /**
+     * Create and return new line aligned at left edge of screen
+     *
+     * @param margin     margin value from left edge
+     * @param marginUnit unit of margin value. Must be one of TypedValue.COMPLEX_UNIT_PX TypedValue.COMPLEX_UNIT_DIP,
+     *                   TypedValue.COMPLEX_UNIT_IN, TypedValue.COMPLEX_UNIT_MM
+     * @return newly created line
+     */
     public static Line fromLeft(int margin, int marginUnit) {
         return new Line(1, Gravity.LEFT, margin, marginUnit, DebugColors.next());
     }
 
+    /**
+     * Create and return new line aligned at right edge of screen
+     *
+     * @param margin     margin value from right edge
+     * @param marginUnit unit of margin value. Must be one of TypedValue.COMPLEX_UNIT_PX TypedValue.COMPLEX_UNIT_DIP,
+     *                   TypedValue.COMPLEX_UNIT_IN, TypedValue.COMPLEX_UNIT_MM
+     * @return newly created line
+     */
     public static Line fromRight(int margin, int marginUnit) {
         return new Line(1, Gravity.RIGHT, margin, marginUnit, DebugColors.next());
     }
 
+    /**
+     * Create and return new line aligned at top edge of screen
+     *
+     * @param margin     margin value from top edge
+     * @param marginUnit unit of margin value. Must be one of TypedValue.COMPLEX_UNIT_PX TypedValue.COMPLEX_UNIT_DIP,
+     *                   TypedValue.COMPLEX_UNIT_IN, TypedValue.COMPLEX_UNIT_MM
+     * @return newly created line
+     */
     public static Line fromTop(int margin, int marginUnit) {
         return new Line(1, Gravity.TOP, margin, marginUnit, DebugColors.next());
     }
 
+    /**
+     * Create and return new line aligned at bottom edge of screen
+     *
+     * @param margin     margin value from bottom edge
+     * @param marginUnit unit of margin value. Must be one of TypedValue.COMPLEX_UNIT_PX TypedValue.COMPLEX_UNIT_DIP,
+     *                   TypedValue.COMPLEX_UNIT_IN, TypedValue.COMPLEX_UNIT_MM
+     * @return newly created line
+     */
     public static Line fromBottom(int margin, int marginUnit) {
         return new Line(1, Gravity.BOTTOM, margin, marginUnit, DebugColors.next());
     }
 
+    /**
+     * @return width in px of line
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * @return gravity of this line
+     */
     public int getGravity() {
         return gravity;
     }
 
+    /**
+     * @return margin value from edge of this line
+     */
     public int getMargin() {
         return margin;
     }
 
+    /**
+     * @return margin unit of this line
+     */
     public int getMarginUnit() {
         return marginUnit;
     }
 
+    /**
+     * @return hex value of color for this line
+     */
     public int getColor() {
         return color;
     }
