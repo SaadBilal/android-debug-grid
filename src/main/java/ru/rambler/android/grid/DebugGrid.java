@@ -106,6 +106,7 @@ public class DebugGrid {
                     right ? marginInPx : 0,
                     bottom ? marginInPx : 0
             );
+            lineViewParams.gravity = line.getGravity();
 
             parent.addView(lineView, lineViewParams);
         }
