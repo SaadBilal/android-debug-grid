@@ -1,4 +1,4 @@
-package ru.rambler.android.grid;
+package com.github.nnesterov.android.grid;
 
 import android.util.TypedValue;
 import android.view.Gravity;

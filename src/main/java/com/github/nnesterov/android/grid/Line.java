@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package ru.rambler.android.grid;
+package com.github.nnesterov.android.grid;
 
 import android.view.Gravity;
 

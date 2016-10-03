@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package ru.rambler.android.grid;
+package com.github.nnesterov.android.grid;
 
 import android.app.Activity;
 import android.app.Application;
@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.ComplexType;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
