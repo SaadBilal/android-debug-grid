@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.ComplexType;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
@@ -37,14 +38,12 @@ import java.util.Map;
  */
 public class DebugGrid {
     private final List<Line> lines;
-    private final Application application;
     private final Map<Activity, View> gridViews = new IdentityHashMap<>();
     private final LifecycleCallbacks lifecycleCallbacks;
     private boolean visible = true;
 
 
     private DebugGrid(Application application, List<Line> lines) {
-        this.application = application;
         this.lines = new ArrayList<>(lines);
         inflateView(application);
         lifecycleCallbacks = new LifecycleCallbacks();
@@ -135,7 +134,7 @@ public class DebugGrid {
         private final List<Line> lines = new ArrayList<>();
 
         /**
-         * Add new line to creating grid
+         * Adds new line to creating grid.
          *
          * @param line new line
          * @return this instance for fluent interface
@@ -143,6 +142,17 @@ public class DebugGrid {
         public Builder with(Line line) {
             lines.add(line);
             return this;
+        }
+
+        /**
+         * Adds main keylines from google material guidelines to creating grid.
+         *
+         * @return this instance for fluent interface
+         */
+        public Builder withMaterialGrid() {
+            return this.with(Line.fromLeft(16, TypedValue.COMPLEX_UNIT_DIP))
+                    .with(Line.fromLeft(72, TypedValue.COMPLEX_UNIT_DIP))
+                    .with(Line.fromRight(16, TypedValue.COMPLEX_UNIT_DIP));
         }
 
         /**
