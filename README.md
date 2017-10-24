@@ -1,10 +1,10 @@
-#Android Debug Grid
+# Android Debug Grid
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Release](https://jitpack.io/v/nesterov-n/android-debug-grid.svg)](https://jitpack.io/#nesterov-n/android-debug-grid)
 
 Draws debug grid over activities in android application
 
-##Usage
+## Usage
 
 
 Add dependency in your _build.gradle_ 
@@ -21,7 +21,7 @@ new DebugGrid.Builder()
      .build(this);
 ```
 
-##Distributing
+## Distributing
 
 
 This project is distributed under the terms of the Apache License v2.0. 
